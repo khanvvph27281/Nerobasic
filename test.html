@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .wheel-container {
+            position: relative;
+        }
+
+        .wheel {
+            width: 300px;
+            height: 300px;
+            background: conic-gradient(
+                #ff5733 0% 16.666%,
+                #ffc300 16.666% 33.333%,
+                #00a98b 33.333% 50%,
+                #ffb430 50% 66.666%,
+                #ff5733 66.666% 83.333%,
+                #ffc300 83.333% 100%
+            );
+            border: 5px solid #333;
+            border-radius: 50%;
+        }
+
+        .wheel-inner {
+            width: 100px;
+            height: 100px;
+            background-color: #333;
+            position: absolute;
+            top: 50%; /* Đặt top ở giữa */
+            left: 50%; /* Đặt left ở giữa */
+            transform: translate(-50%, -50%); /* Dịch chuyển vào giữa */
+            border-radius: 50%;
+        }
+
+        .needle {
+            position: absolute;
+            width: 6px;
+            height: 140px;
+            background-color: red;
+            left: calc(50% - 3px);
+            top: calc(50% - 100px);
+            transform-origin: center bottom;
+            transform: rotate(0deg);
+        }
+
+        #spin-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Vòng quay trúng thưởng</title>
+</head>
+<body>
+    <div class="wheel-container">
+        <div class="wheel" id="wheel">
+            <div class="wheel-inner" id="wheel-inner"></div>
+        </div>
+        <div class="needle" id="needle"></div>
+    </div>
+    <button id="spin-button">Quay</button>
+    <script>
+        const wheel = document.getElementById("wheel");
+        const needle = document.getElementById("needle");
+        const spinButton = document.getElementById("spin-button");
+
+        let isSpinning = false;
+
+        spinButton.addEventListener("click", () => {
+            if (!isSpinning) {
+                isSpinning = true;
+                spinButton.disabled = true;
+                const randomDegree = 1800 + Math.floor(Math.random() * 360); // Lấy một góc ngẫu nhiên
+                wheel.style.transition = "transform 4s ease-out"; // Áp dụng animation
+                wheel.style.transform = `rotate(${randomDegree}deg)`;
+
+                setTimeout(() => {
+                    isSpinning = false;
+                    spinButton.disabled = false;
+                }, 4000); // Adjust the time according to your needs
+            }
+        });
+    </script>
+</body>
+</html>
